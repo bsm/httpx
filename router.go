@@ -4,8 +4,8 @@ import (
 	"github.com/bsm/rucksack"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/cors"
 	"github.com/kr/secureheader"
-	"github.com/rs/cors"
 )
 
 // RouterOptions support custom router configuration.

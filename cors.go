@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/bsm/rucksack"
-	"github.com/rs/cors"
+	"github.com/go-chi/cors"
 )
 
 var corsDefaults = cors.Options{
