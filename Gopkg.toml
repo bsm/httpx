@@ -1,8 +1,0 @@
-[[override]]
-  name = "gopkg.in/fsnotify.v1"
-  source = "https://github.com/fsnotify/fsnotify.git"
-
-[prune]
-  non-go = true
-  go-tests = true
-  unused-packages = true
