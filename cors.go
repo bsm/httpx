@@ -3,7 +3,7 @@ package httpx
 import (
 	"strings"
 
-	"github.com/bsm/rucksack"
+	"github.com/bsm/rucksack/v4"
 	"github.com/go-chi/cors"
 )
 

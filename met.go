@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/bsm/rucksack/met"
+	"github.com/bsm/rucksack/v4/met"
 	"github.com/go-chi/chi/middleware"
 )
 

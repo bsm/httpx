@@ -3,7 +3,7 @@ package httpx
 import (
 	"net/http"
 
-	"github.com/bsm/rucksack"
+	"github.com/bsm/rucksack/v4"
 	"github.com/kr/secureheader"
 )
 

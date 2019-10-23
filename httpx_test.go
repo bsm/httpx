@@ -3,7 +3,7 @@ package httpx
 import (
 	"testing"
 
-	"github.com/bsm/rucksack/log"
+	"github.com/bsm/rucksack/v4/log"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
