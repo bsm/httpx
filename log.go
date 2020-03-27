@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/bsm/rucksack/v4/log"
-	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v4/middleware"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )

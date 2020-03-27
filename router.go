@@ -2,8 +2,8 @@ package httpx
 
 import (
 	"github.com/bsm/rucksack/v4"
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v4"
+	"github.com/go-chi/chi/v4/middleware"
 	"github.com/go-chi/cors"
 	"github.com/kr/secureheader"
 )
@@ -60,7 +60,7 @@ func NewRouter(opt *RouterOptions) chi.Router {
 	r.Use(cors.New(*o.CORS).Handler)
 
 	if !o.DisableCompress {
-		r.Use(middleware.DefaultCompress)
+		r.Use(middleware.Compress(2))
 	}
 	return r
 }
