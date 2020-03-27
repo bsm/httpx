@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/bsm/rucksack/v4/met"
-	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v4/middleware"
 )
 
 var metMiddleware = middleware.RequestLogger(metFormatter{})

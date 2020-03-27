@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/v4"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -29,10 +29,10 @@ var _ = Describe("Router", func() {
 		Expect(w.Body.String()).To(Equal("boom"))
 		Expect(w.Header()).To(Equal(http.Header{
 			"Strict-Transport-Security": {"max-age=25920000; includeSubDomains"},
-			"Vary": {"Origin"},
-			"X-Content-Type-Options": {"nosniff"},
-			"X-Frame-Options":        {"DENY"},
-			"X-Xss-Protection":       {"1; mode=block"},
+			"Vary":                      {"Origin"},
+			"X-Content-Type-Options":    {"nosniff"},
+			"X-Frame-Options":           {"DENY"},
+			"X-Xss-Protection":          {"1; mode=block"},
 		}))
 	})
 
