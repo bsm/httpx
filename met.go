@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/bsm/rucksack/v4/met"
-	"github.com/go-chi/chi/v4/middleware"
+	"github.com/go-chi/chi/middleware"
 )
 
 var metMiddleware = middleware.RequestLogger(metFormatter{})
@@ -17,7 +17,7 @@ func (metFormatter) NewLogEntry(r *http.Request) middleware.LogEntry { return me
 
 type metEntry struct{ *http.Request }
 
-func (e metEntry) Write(status, _ int, elapsed time.Duration) {
+func (e metEntry) Write(status, bytes int, header http.Header, elapsed time.Duration, extra interface{}) {
 	tags := append(make([]string, 0, 2),
 		"status:"+strconv.Itoa(status),
 	)

@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/go-chi/chi/v4"
+	"github.com/go-chi/chi"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
