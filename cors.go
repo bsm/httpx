@@ -15,13 +15,13 @@ var corsDefaults = cors.Options{
 }
 
 func init() {
-	if s := rucksack.Env("CORS_ALLOWED_ORIGINS"); s != "" {
+	if s := rucksack.Env("CORS_ALLOWED_ORIGINS", "CORS_ORIGINS"); s != "" {
 		corsDefaults.AllowedOrigins = strings.Split(s, ",")
 	}
-	if s := rucksack.Env("CORS_ALLOWED_METHODS"); s != "" {
+	if s := rucksack.Env("CORS_ALLOWED_METHODS", "CORS_METHODS"); s != "" {
 		corsDefaults.AllowedMethods = strings.Split(s, ",")
 	}
-	if s := rucksack.Env("CORS_ALLOWED_HEADERS"); s != "" {
+	if s := rucksack.Env("CORS_ALLOWED_HEADERS", "CORS_HEADERS"); s != "" {
 		corsDefaults.AllowedHeaders = strings.Split(s, ",")
 	}
 	if s := rucksack.Env("CORS_ALLOW_CREDENTIALS"); s == "false" {
