@@ -1,6 +1,7 @@
 package main
 
 import (
+	"net"
 	"net/http"
 	"time"
 
@@ -11,23 +12,34 @@ import (
 )
 
 type zapEntry struct {
-	Method, URL, Proto, From, UA, RequestID string
+	Method, URL, Proto, RemoteAddr, UA, Referer, RequestID string
 
 	Logger *zap.Logger
 }
 
+// From https://docs.datadoghq.com/logs/log_configuration/attributes_naming_convention/#http-requests
 func (e *zapEntry) Write(status, bytes int, header http.Header, elapsed time.Duration, extra interface{}) {
-	fields := append(make([]zapcore.Field, 0, 8),
-		zap.String("method", e.Method),
-		zap.String("url", e.URL),
-		zap.String("proto", e.Proto),
-		zap.String("ua", e.UA),
-		zap.Int("status", status),
-		zap.Int("bytes", bytes),
-		zap.Duration("elapsed", elapsed),
+	fields := append(make([]zapcore.Field, 0, 11),
+		zap.String("http.method", e.Method),
+		zap.String("http.url", e.URL),
+		zap.String("http.version", e.Proto),
+		zap.String("http.useragent", e.UA),
+		zap.Int("http.status_code", status),
+		zap.Int("network.bytes_written", bytes),
+		zap.Duration("duration", elapsed),
 	)
 	if e.RequestID != "" {
-		fields = append(fields, zap.String("request_id", e.RequestID))
+		fields = append(fields, zap.String("http.request_id", e.RequestID))
+	}
+	if e.Referer != "" {
+		fields = append(fields, zap.String("http.referer", e.Referer))
+	}
+	if e.RemoteAddr != "" {
+		host, port, _ := net.SplitHostPort(e.RemoteAddr)
+		fields = append(fields,
+			zap.String("network.client.ip", host),
+			zap.String("network.client.port", port),
+		)
 	}
 
 	if status < 500 {
@@ -52,13 +64,14 @@ func main() {
 		}
 
 		return &zapEntry{
-			Method:    r.Method,
-			URL:       scheme + "://" + r.Host + r.RequestURI,
-			Proto:     r.Proto,
-			From:      r.RemoteAddr,
-			UA:        r.UserAgent(),
-			RequestID: r.Header.Get(middleware.RequestIDHeader),
-			Logger:    logger,
+			Method:     r.Method,
+			URL:        scheme + "://" + r.Host + r.RequestURI,
+			Proto:      r.Proto,
+			RemoteAddr: r.RemoteAddr,
+			UA:         r.UserAgent(),
+			Referer:    r.Header.Get("Referer"),
+			RequestID:  r.Header.Get(middleware.RequestIDHeader),
+			Logger:     logger,
 		}
 	}
 
