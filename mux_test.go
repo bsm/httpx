@@ -33,11 +33,10 @@ func TestNewMux_defaults(t *testing.T) {
 	}
 
 	exp := http.Header{
-		"Strict-Transport-Security": {"max-age=31104000; includeSubDomains; preload"},
-		"Vary":                      {"Origin"},
-		"X-Content-Type-Options":    {"nosniff"},
-		"X-Frame-Options":           {"SAMEORIGIN"},
-		"X-Xss-Protection":          {"1; mode=block"},
+		"Vary":                   {"Origin"},
+		"X-Content-Type-Options": {"nosniff"},
+		"X-Frame-Options":        {"SAMEORIGIN"},
+		"X-Xss-Protection":       {"1; mode=block"},
 	}
 	if got := w.Header(); !reflect.DeepEqual(exp, got) {
 		t.Errorf("expected %+v, got %+v", exp, got)

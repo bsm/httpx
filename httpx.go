@@ -1,8 +1,29 @@
 package httpx
 
-import "os"
+import (
+	"os"
+	"strings"
+)
 
-var isTestMode bool
+// Env defines the runtime environment
+type Env uint8
+
+const (
+	unknownEnv Env = iota
+	Production
+	Test
+	Development
+)
+
+var guessedEnv = Production
+
+func init() {
+	if fromEnv("CI") != "" || strings.HasSuffix(os.Args[0], ".test") {
+		guessedEnv = Test
+	} else if workDir, _ := os.Getwd(); strings.HasPrefix(workDir, "/home/") {
+		guessedEnv = Development
+	}
+}
 
 func coalesce(vv ...string) string {
 	for _, v := range vv {

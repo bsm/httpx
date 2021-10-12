@@ -1,10 +1,6 @@
 package httpx
 
 import (
-	"io"
-	"log"
-	"os"
-
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
@@ -13,6 +9,7 @@ import (
 
 // MuxOptions allow mux configuration.
 type MuxOptions struct {
+	Env        Env
 	Logger     middleware.LogFormatter
 	Secure     *secure.Options
 	CORS       *cors.Options
@@ -21,25 +18,20 @@ type MuxOptions struct {
 }
 
 func (o *MuxOptions) norm() {
+	if o.Env == unknownEnv {
+		o.Env = guessedEnv
+	}
+
 	if o.Logger == nil {
-		var out io.Writer = os.Stdout
-		if isTestMode {
-			out = io.Discard
-		}
-		o.Logger = &middleware.DefaultLogFormatter{Logger: log.New(out, "", log.LstdFlags)}
+		o.Logger = &middleware.DefaultLogFormatter{Logger: newStdLogger(o.Env)}
 	}
 
 	if o.Secure == nil {
-		opts := secureDefaults
-		o.Secure = &opts
-	}
-	if isTestMode {
-		o.Secure.IsDevelopment = false
+		o.Secure = secureDefaults(o.Env)
 	}
 
 	if o.CORS == nil {
-		opts := corsDefaults
-		o.CORS = &opts
+		o.CORS = corsDefaults(o.Env)
 	}
 
 	if o.Heartbeat == "" {
