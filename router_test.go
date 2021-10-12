@@ -1,4 +1,4 @@
-package httpx
+package httpx_test
 
 import (
 	"net/http"
@@ -6,11 +6,12 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/bsm/httpx"
 	"github.com/go-chi/chi/v5"
 )
 
 func seedMux() chi.Router {
-	mux := NewRouter(nil)
+	mux := httpx.NewRouter(nil)
 	mux.Get("/test", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("boom"))
 	})
