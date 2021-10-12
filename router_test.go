@@ -13,7 +13,7 @@ import (
 func seedMux() chi.Router {
 	mux := httpx.NewRouter(nil)
 	mux.Get("/test", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("boom"))
+		_, _ = w.Write([]byte("boom"))
 	})
 	return mux
 }
