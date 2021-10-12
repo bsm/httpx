@@ -18,7 +18,7 @@ const (
 var guessedEnv = Production
 
 func init() {
-	if fromEnv("CI") != "" || strings.HasSuffix(os.Args[0], ".test") {
+	if fromEnv("CI") != "" || (len(os.Args) != 0 && strings.HasSuffix(os.Args[0], ".test")) {
 		guessedEnv = Test
 	} else if workDir, _ := os.Getwd(); strings.HasPrefix(workDir, "/home/") {
 		guessedEnv = Development
