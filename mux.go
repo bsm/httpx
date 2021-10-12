@@ -11,8 +11,8 @@ import (
 	"github.com/unrolled/secure"
 )
 
-// RouterOptions support custom router configuration.
-type RouterOptions struct {
+// MuxOptions allow mux configuration.
+type MuxOptions struct {
 	Logger     middleware.LogFormatter
 	Secure     *secure.Options
 	CORS       *cors.Options
@@ -20,7 +20,7 @@ type RouterOptions struct {
 	NoCompress bool   // disable compression
 }
 
-func (o *RouterOptions) norm() {
+func (o *MuxOptions) norm() {
 	if o.Logger == nil {
 		var out io.Writer = os.Stdout
 		if isTestMode {
@@ -49,15 +49,15 @@ func (o *RouterOptions) norm() {
 	o.NoCompress = fromEnv("HTTP_COMPRESS") == "false"
 }
 
-// NewRouter inits a new chi.Router with options
-func NewRouter(opt *RouterOptions) chi.Router {
-	var o RouterOptions
+// NewMux inits a new *chi.Mux with options
+func NewMux(opt *MuxOptions) *chi.Mux {
+	var o MuxOptions
 	if opt != nil {
 		o = *opt
 	}
 	o.norm()
 
-	r := chi.NewRouter()
+	r := chi.NewMux()
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
 	r.Use(middleware.RequestLogger(o.Logger))

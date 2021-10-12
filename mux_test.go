@@ -10,15 +10,15 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func seedMux() chi.Router {
-	mux := httpx.NewRouter(nil)
+func seedMux() *chi.Mux {
+	mux := httpx.NewMux(nil)
 	mux.Get("/test", func(w http.ResponseWriter, r *http.Request) {
 		_, _ = w.Write([]byte("boom"))
 	})
 	return mux
 }
 
-func TestNewRouter_defaults(t *testing.T) {
+func TestNewMux_defaults(t *testing.T) {
 	w := httptest.NewRecorder()
 	r := httptest.NewRequest("GET", "/test", nil)
 	r.Header.Add("X-Forwarded-Proto", "https")
@@ -44,7 +44,7 @@ func TestNewRouter_defaults(t *testing.T) {
 	}
 }
 
-func TestNewRouter_heartbeat(t *testing.T) {
+func TestNewMux_heartbeat(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	mux := seedMux()
