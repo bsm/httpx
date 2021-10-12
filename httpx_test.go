@@ -1,18 +1,11 @@
 package httpx
 
 import (
+	"os"
 	"testing"
-
-	"github.com/bsm/rucksack/v4/log"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 )
 
-func init() {
-	log.Silence()
-}
-
-func TestSuite(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "rucksack/httpx")
+func TestMain(m *testing.M) {
+	isTestMode = true
+	os.Exit(m.Run())
 }
