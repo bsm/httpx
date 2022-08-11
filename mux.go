@@ -52,13 +52,13 @@ func NewMux(opt *MuxOptions) *chi.Mux {
 	r := chi.NewMux()
 	r.Use(middleware.RequestID)
 	r.Use(middleware.RealIP)
-	r.Use(middleware.RequestLogger(o.Logger))
 	r.Use(middleware.Recoverer)
 
 	if o.Heartbeat != "false" {
 		r.Use(middleware.Heartbeat(o.Heartbeat))
 	}
 
+	r.Use(middleware.RequestLogger(o.Logger))
 	r.Use(secure.New(*o.Secure).Handler)
 	r.Use(cors.New(*o.CORS).Handler)
 
